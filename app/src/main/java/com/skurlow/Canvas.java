@@ -61,6 +61,17 @@ public class Canvas {
         }
         if (x1 == x2) {
             // Draw a vertical line.
+            if (y1 < y2) {
+                // Draw from top to bottom.
+                for (int position = y1; position <= y2; position++) {
+                    fillCell(x1, position, 'x');
+                }
+            } else {
+                // Draw from bottom to top.
+                for (int position = y2; position <= y1; position++) {
+                    fillCell(x1, position, 'x');
+                }
+            }
         } else {
             // Draw a horizontal line.
             for (int position = x1; position <= x2; position++) {

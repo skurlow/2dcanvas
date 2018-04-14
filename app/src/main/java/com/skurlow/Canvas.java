@@ -74,8 +74,14 @@ public class Canvas {
             }
         } else {
             // Draw a horizontal line.
-            for (int position = x1; position <= x2; position++) {
-                fillCell(position, y1, 'x');
+            if (x1 < x2) {
+                for (int position = x1; position <= x2; position++) {
+                    fillCell(position, y1, 'x');
+                }
+            } else {
+                for (int position = x2; position <= x1; position++) {
+                    fillCell(position, y1, 'x');
+                }
             }
         }
     }

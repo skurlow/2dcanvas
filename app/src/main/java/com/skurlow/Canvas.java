@@ -61,27 +61,35 @@ public class Canvas {
         }
         if (x1 == x2) {
             // Draw a vertical line.
-            if (y1 < y2) {
-                // Draw from top to bottom.
-                for (int position = y1; position <= y2; position++) {
-                    fillCell(x1, position, 'x');
-                }
-            } else {
-                // Draw from bottom to top.
-                for (int position = y2; position <= y1; position++) {
-                    fillCell(x1, position, 'x');
-                }
-            }
+            drawVerticalLine(y1, y2, x1);
         } else {
             // Draw a horizontal line.
-            if (x1 < x2) {
-                for (int position = x1; position <= x2; position++) {
-                    fillCell(position, y1, 'x');
-                }
-            } else {
-                for (int position = x2; position <= x1; position++) {
-                    fillCell(position, y1, 'x');
-                }
+            drawHorizontalLine(x1, x2, y1);
+        }
+    }
+
+    private void drawHorizontalLine(int x1, int x2, int y) {
+        if (x1 < x2) {
+            for (int position = x1; position <= x2; position++) {
+                fillCell(position, y, 'x');
+            }
+        } else {
+            for (int position = x2; position <= x1; position++) {
+                fillCell(position, y, 'x');
+            }
+        }
+    }
+
+    private void drawVerticalLine(int y1, int y2, int x) {
+        if (y1 < y2) {
+            // Draw from top to bottom.
+            for (int position = y1; position <= y2; position++) {
+                fillCell(x, position, 'x');
+            }
+        } else {
+            // Draw from bottom to top.
+            for (int position = y2; position <= y1; position++) {
+                fillCell(x, position, 'x');
             }
         }
     }
@@ -100,8 +108,31 @@ public class Canvas {
         area[y - 1][x - 1] = fillChar;
     }
 
+    /**
+     * Draw a rectangle.
+     *
+     * @param x1 the x-coordinate of one corner of the rectangle.
+     * @param y1 the y-coordinate of one corner of the rectangle.
+     * @param x2 the x-coordinate of the other corner of the rectangle.
+     * @param y2 the y-coordinate of the other corner of the rectangle.
+     */
     public void drawRectangle(int x1, int y1, int x2, int y2) {
-
+        if (x1 < 1 || x1 > width) {
+            throw new IllegalArgumentException("The first point must have an x-coordinate within the canvas area.");
+        }
+        if (y1 < 1 || y1 > height) {
+            throw new IllegalArgumentException("The first point must have a y-coordinate within the canvas area.");
+        }
+        if (x2 < 1 || x2 > width) {
+            throw new IllegalArgumentException("The last point must have an x-coordinate within the canvas area.");
+        }
+        if (y2 < 1 || y2 > height) {
+            throw new IllegalArgumentException("The last point must have a y-coordinate within the canvas area.");
+        }
+        drawHorizontalLine(x1, x2, y1);
+        drawVerticalLine(y1, y2, x2);
+        drawHorizontalLine(x2, x1, y2);
+        drawVerticalLine(y2, y1, x1);
     }
 
     public void fill(int x, int y, char colour) {

@@ -78,4 +78,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
         };
         assertThat(canvas.getArea(), is(equalTo(expectedArea)));
     }
+
+    @Test
+    void should_draw_rectangle() {
+        Canvas canvas = new Canvas();
+        canvas.create(20, 4);
+        canvas.drawRectangle(14, 1, 18, 3);
+        char[][] expectedArea =  {
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', 'x', 'x', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', ' ', ' ', ' ', 'x', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', 'x', 'x', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+        };
+        assertThat(canvas.getArea(), is(equalTo(expectedArea)));
+    }
 }

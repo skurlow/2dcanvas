@@ -7,7 +7,7 @@ public class Canvas {
 
     private int width = 0;
     private int height = 0;
-    private char[][] area = null;
+    private char[][] drawableArea = null;
 
     /**
      * Create a rectangular shaped canvas.
@@ -16,19 +16,19 @@ public class Canvas {
      * @param height the height
      */
     public void create(int width, int height) {
-        if (width < 1) {
-            throw new IllegalArgumentException("Width must be greater than 0");
+        if (width < 3) {
+            throw new IllegalArgumentException("Width must be greater than 2");
         }
         if (height < 1) {
             throw new IllegalArgumentException("Height must be greater than 0");
         }
-        this.width = width;
+        this.width = width - 2;
         this.height = height;
-        area = new char[height][width];
-        // Initialise the area to contain spaces. This represents an empty canvas.
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                area[y][x] = ' ';
+        drawableArea = new char[this.height][this.width];
+        // Initialise the drawableArea to contain spaces. This represents an empty canvas.
+        for (int y = 0; y < this.height; y++) {
+            for (int x = 0; x < this.width; x++) {
+                drawableArea[y][x] = ' ';
             }
         }
     }
@@ -105,7 +105,7 @@ public class Canvas {
      * @param fillChar the character to write onto the (x,y) point on the canvas.
      */
     private void writeCharacterOntoPoint(int x, int y, char fillChar) {
-        area[y - 1][x - 1] = fillChar;
+        drawableArea[y - 1][x - 1] = fillChar;
     }
 
     /**
@@ -162,7 +162,7 @@ public class Canvas {
      * @param y the y-coordinate of a point.
      */
     private char getCharacterAt(int x, int y) {
-        return area[y - 1][x - 1];
+        return drawableArea[y - 1][x - 1];
     }
 
     private void fillCellInArea(int x, int y, char colourToChange, char paintColour) {
@@ -184,14 +184,14 @@ public class Canvas {
         for (int y = 0; y < height; y++) {
             System.out.print("|");
             for (int x = 0; x < width; x++) {
-                System.out.print(area[y][x]);
+                System.out.print(drawableArea[y][x]);
             }
             System.out.println("|");
         }
         System.out.println(dashedLine);
     }
 
-    public char[][] getArea() {
-        return area;
+    public char[][] getDrawableArea() {
+        return drawableArea;
     }
 }

@@ -71,11 +71,11 @@ public class Canvas {
     private void drawHorizontalLine(int x1, int x2, int y) {
         if (x1 < x2) {
             for (int position = x1; position <= x2; position++) {
-                fillCell(position, y, 'x');
+                writeCharacterOntoPoint(position, y, 'x');
             }
         } else {
             for (int position = x2; position <= x1; position++) {
-                fillCell(position, y, 'x');
+                writeCharacterOntoPoint(position, y, 'x');
             }
         }
     }
@@ -84,12 +84,12 @@ public class Canvas {
         if (y1 < y2) {
             // Draw from top to bottom.
             for (int position = y1; position <= y2; position++) {
-                fillCell(x, position, 'x');
+                writeCharacterOntoPoint(x, position, 'x');
             }
         } else {
             // Draw from bottom to top.
             for (int position = y2; position <= y1; position++) {
-                fillCell(x, position, 'x');
+                writeCharacterOntoPoint(x, position, 'x');
             }
         }
     }
@@ -104,7 +104,7 @@ public class Canvas {
      * @param y the y-coordinate of a point.
      * @param fillChar the character to write onto the (x,y) point on the canvas.
      */
-    private void fillCell(int x, int y, char fillChar) {
+    private void writeCharacterOntoPoint(int x, int y, char fillChar) {
         area[y - 1][x - 1] = fillChar;
     }
 
@@ -135,8 +135,47 @@ public class Canvas {
         drawVerticalLine(y2, y1, x1);
     }
 
-    public void fill(int x, int y, char colour) {
+    /**
+     * Fill an area on a canvas with a particular character.
+     *
+     * @param x the x-coordinate of a point on the canvas where to start filling.
+     * @param y the y-coordinate of a point on the canvas where to start filling.
+     * @param replacementCharacter the character to use to fill the area.
+     */
+    public void fillArea(int x, int y, char replacementCharacter) {
+        if (x < 1 || x > width) {
+            throw new IllegalArgumentException("The starting point must have an x-coordinate within the canvas area.");
+        }
+        if (y < 1 || y > height) {
+            throw new IllegalArgumentException("The starting point must have a y-coordinate within the canvas area.");
+        }
+        fillCellInArea(x, y, getCharacterAt(x, y), replacementCharacter);
+    }
 
+    /**
+     * Get the character at a single point on the canvas.
+     *
+     * Localise translation of a coordinate into the canvas' 0-index array in this method to avoid potential defects
+     * and simplify code that uses this method.
+     *
+     * @param x the x-coordinate of a point.
+     * @param y the y-coordinate of a point.
+     */
+    private char getCharacterAt(int x, int y) {
+        return area[y - 1][x - 1];
+    }
+
+    private void fillCellInArea(int x, int y, char colourToChange, char paintColour) {
+        if (x > 0 && y > 0 && x <= width && y <= height) {
+            char currentColor = getCharacterAt(x,y);
+            if (currentColor == colourToChange) {
+                writeCharacterOntoPoint(x, y, paintColour);
+                fillCellInArea(x + 1, y, colourToChange, paintColour);
+                fillCellInArea(x - 1, y, colourToChange, paintColour);
+                fillCellInArea(x, y + 1, colourToChange, paintColour);
+                fillCellInArea(x, y - 1, colourToChange, paintColour);
+            }
+        }
     }
 
     public void renderToConsole() {

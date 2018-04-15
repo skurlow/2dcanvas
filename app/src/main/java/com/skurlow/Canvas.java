@@ -179,12 +179,16 @@ public class Canvas {
     }
 
     public void renderToConsole() {
+        final String dashedLine = new String(new char[width + 2]).replace("\0", "-");
+        System.out.println(dashedLine);
         for (int y = 0; y < height; y++) {
+            System.out.print("|");
             for (int x = 0; x < width; x++) {
                 System.out.print(area[y][x]);
             }
-            System.out.print(System.lineSeparator());
+            System.out.println("|");
         }
+        System.out.println(dashedLine);
     }
 
     public char[][] getArea() {

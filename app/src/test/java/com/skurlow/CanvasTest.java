@@ -109,4 +109,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
         };
         assertThat(canvas.getArea(), is(equalTo(expectedArea)));
     }
+
+    @Test
+    void should_fill_connected_horizontal_and_vertical_lines() {
+        Canvas canvas = new Canvas();
+        canvas.create(20, 4);
+        canvas.drawLine(1, 2, 6, 2);
+        canvas.drawLine(6, 3, 6, 4);
+        canvas.drawRectangle(14, 1, 18, 3);
+        canvas.fillArea(10, 3, 'o');
+        canvas.drawLine(6, 4, 13, 4);
+        canvas.fillArea(1, 2, '.');
+        char[][] expectedArea =  {
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'o'},
+                {'.', '.', '.', '.', '.', '.', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', ' ', ' ', ' ', 'x', 'o', 'o'},
+                {' ', ' ', ' ', ' ', ' ', '.', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'x', 'x', 'x', 'x', 'x', 'o', 'o'},
+                {' ', ' ', ' ', ' ', ' ', '.', '.', '.', '.', '.', '.', '.', '.', 'o', 'o', 'o', 'o', 'o', 'o', 'o'}
+        };
+        assertThat(canvas.getArea(), is(equalTo(expectedArea)));
+    }
 }
